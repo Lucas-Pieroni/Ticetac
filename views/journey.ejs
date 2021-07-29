@@ -1,0 +1,43 @@
+<%- include('header');%>
+
+
+<body>
+    <div class = "container">
+        <div class ="justify-content-center row">
+            <div class="col-12 col-sm-6">
+
+                <div class="d-align-inline-flex formArea">
+                  <h4 class="titleForm">One-way ticket</h4>
+    
+                  <form class = "d-inline-justify-content-center-flex" action= "/journey" method="POST">
+
+                    <div class="input-group mb-3">
+                        <input name="newdeparture" type="text" class="form-control" placeholder="From: Paris, Marseille..." aria-label="enter departure name">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input name="newarrival" type="text" class="form-control" placeholder="To: Lilles, Monaco..." aria-label="enter arrival name">
+                    </div>
+
+                        <div class="input-group-append">
+                            <button class="btn btn-danger" type="submit" id="button-addon2">Go</button>
+                        </div>
+                  </form>
+             </div>
+            </div>
+        </div>
+    </div>
+
+
+      </div>
+    <div id="eiffel" style="position:absolute; width:100%; height:100%">
+
+        <img src="./images/landmark.png">
+    </div>
+
+        <!--SCRIPTS-->
+
+        <%- include('scripts');%>
+
+    </body>
+    </html>

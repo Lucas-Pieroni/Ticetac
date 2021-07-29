@@ -9,11 +9,12 @@ const UserModel = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
   res.render('index', { title: 'Express' });
 });
 
 router.get('/journey', function(req, res, next) {
-  res.render('journey', { title: 'Express' });
+  res.render('journey');
 });
 
 
