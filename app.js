@@ -8,7 +8,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var models = require('./routes/index')
 
+require("./models/connect")
+
 var app = express();
+
 
 
 // view engine setup

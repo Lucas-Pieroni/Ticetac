@@ -4,6 +4,7 @@ var router = express.Router();
 var city = ["Paris","Marseille","Nantes","Lyon","Rennes","Melun","Bordeaux","Lille"]
 var date = ["2018-11-20","2018-11-21","2018-11-22","2018-11-23","2018-11-24"]
 
+let JourneyModel = require("../models/journey")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,7 +26,7 @@ router.get('/save', async function(req, res, next) {
 
     if(departureCity != arrivalCity){
 
-      var newUser = new journeyModel ({
+      var newUser = new JourneyModel ({
         departure: departureCity , 
         arrival: arrivalCity, 
         date: date[Math.floor(Math.random() * Math.floor(date.length))],
