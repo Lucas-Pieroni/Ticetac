@@ -59,6 +59,11 @@ router.post("/sign-up", async function(req, res, next){
   res.redirect("/journey")
 })
 
+router.post('/journey-results', async function(req, res, next){
+  var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
+  var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
+  res.render('journeyresult', {journeyList: journeyList});
+});
 
 
 // Remplissage de la base de donnée, une fois suffit
