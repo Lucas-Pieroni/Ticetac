@@ -6,7 +6,7 @@ var journeySchema = mongoose.Schema({
     date: Date,
     departureTime: String,
     price: Number,
-});
+  });
   
 var JourneyModel = mongoose.model('journey', journeySchema);
 
