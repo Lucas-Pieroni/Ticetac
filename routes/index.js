@@ -4,16 +4,44 @@ var router = express.Router();
 var city = ["Paris","Marseille","Nantes","Lyon","Rennes","Melun","Bordeaux","Lille"]
 var date = ["2018-11-20","2018-11-21","2018-11-22","2018-11-23","2018-11-24"]
 
-let JourneyModel = require("../models/journey")
+let JourneyModel = require("../models/journey");
+const UserModel = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Express' });
+router.get('/journey', function(req, res, next) {
+  res.render('journey', { title: 'Express' });
 });
+
+
+router.get('/login', function(req, res, next) {
+  res.render('login', { erreur : erreur });
+});
+
+router.post("/sign-up", async function(req, res, next){
+  // On vérifie si l'email est déjà stocké dans la base de données
+  var userExists = await UserModel.find({email : req.body.newemail})
+  var erreur = ""
+  if (userExists){
+    erreur = "Cet email est déjà utilisé"
+    res.redirect('/login')
+    return
+  }
+  // Si l'email n'existe pas, on stocke les informations dans la base de données
+  var newUser = new UserModel({
+    name : req.body.newName,
+    firstName : req.body.newFirstName,
+    password : req.body.newPassword,
+    email : req.body.newemail,
+    journeys : []
+  })
+  var userSaved = await newUser.save()
+  res.redirect("/journey")
+})
+
 
 
 // Remplissage de la base de donnée, une fois suffit
