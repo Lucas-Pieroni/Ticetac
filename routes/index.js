@@ -18,16 +18,32 @@ router.get('/journey', function(req, res, next) {
 });
 
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { erreur : erreur });
+router.get('/login', async function(req, res, next) {
+  var allUsers = await UserModel.find()
+  res.render('login', { allUsers : allUsers });
 });
+
+router.post('/sign-in', async function(req, res, next){
+  var erreur = ""
+  // On vérifie si le mot de passe et le mail correspondent à une entrée dans la base de données
+  var findLogs = await UserModel.findOne({email : req.body.email, password : req.body.password})
+  console.log(findLogs)
+  if(!findLogs){
+    erreur = "Mot de passe ou email invalide"
+    res.redirect("/login")
+    return
+  }
+  res.redirect('/journey')
+})
 
 router.post("/sign-up", async function(req, res, next){
   // On vérifie si l'email est déjà stocké dans la base de données
-  var userExists = await UserModel.find({email : req.body.newemail})
+  var userExists = await UserModel.findOne({email : req.body.newEmail})
   var erreur = ""
+  console.log(userExists)
   if (userExists){
     erreur = "Cet email est déjà utilisé"
+    console.log(erreur)
     res.redirect('/login')
     return
   }
@@ -36,7 +52,7 @@ router.post("/sign-up", async function(req, res, next){
     name : req.body.newName,
     firstName : req.body.newFirstName,
     password : req.body.newPassword,
-    email : req.body.newemail,
+    email : req.body.newEmail,
     journeys : []
   })
   var userSaved = await newUser.save()
