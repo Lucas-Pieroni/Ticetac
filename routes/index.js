@@ -61,6 +61,7 @@ router.post("/sign-up", async function(req, res, next){
 
 router.post('/journey-results', async function(req, res, next){
   var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
+  console.log(req.body.tripstart);
   var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
   res.render('journeyresult', {journeyList: journeyList});
 });

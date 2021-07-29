@@ -1,0 +1,42 @@
+<%- include('header');%>
+
+<body>
+    <div id ="verticalcontainer" class= "container">
+        <% if(journeyList.length === 0){%>
+        <div class = "justify-content-center">
+            <div class ="col-12 col-sm-12 text-center">
+                <div>
+                
+                    <p>Oops ! No trains available ...</p>
+               
+                    <a href="/journey"><button type="submit" class="btn btn-danger">Home</button></a>
+                </div>
+            </div> 
+
+        <%} 
+            else { %>
+            
+            <p>Tickets available on <%= journeyList[0].date.getMonth() %> / <%= journeyList[0].date.getDay() %> :</p>
+            
+            <% for(let i=0; i<journeyList.length; i++){ 
+                const trainOn = journeyList[i]
+                %>
+            <div class= "col12 col-sm-12 text center"> 
+                    <ul class="list-group">
+                        <li class=" list-group-item d-flex justify-content-between align-items-center">
+                            <a><%= trainOn.departure %> / <%= trainOn.arrival %></a>
+                            <a>Train departure at : <%= trainOn.departureTime %></a>
+                            <a><%= trainOn.price %> €</a>
+                            <a href=""><button type="submit" class="btn btn-danger">Go</button></a>
+                        </li> 
+                    </ul>
+            </div> 
+            <%}%> 
+        </div>
+        <%}%>
+    </div>
+
+
+<%- include('scripts');%>
+</body>
+</html>
