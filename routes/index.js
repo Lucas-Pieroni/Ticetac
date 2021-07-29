@@ -114,4 +114,8 @@ router.get('/result', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/journey-result', function(req, res, next){
+  res.render('journeyresult');
+});
+
 module.exports = router;
