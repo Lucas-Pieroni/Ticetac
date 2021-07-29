@@ -11,6 +11,12 @@ background-repeat: no-repeat;
 height: 100vh;
 }
 
+#eiffel img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 a {
   color: #00B7FF;
 }
