@@ -23,10 +23,11 @@ router.get('/login', async function(req, res, next) {
   res.render('login', { allUsers : allUsers });
 });
 
-router.get('/sign-in', async function(req, res, next){
+router.post('/sign-in', async function(req, res, next){
   var erreur = ""
   // On vérifie si le mot de passe et le mail correspondent à une entrée dans la base de données
   var findLogs = await UserModel.findOne({email : req.body.email, password : req.body.password})
+  console.log(findLogs)
   if(!findLogs){
     erreur = "Mot de passe ou email invalide"
     res.redirect("/login")
