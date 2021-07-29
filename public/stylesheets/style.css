@@ -1,8 +1,17 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f0f9ff+0,cbebff+47,6f9af7+100 */
+background: #f0f9ff; /* Old browsers */
+background: -moz-linear-gradient(top,  #f0f9ff 0%, #cbebff 47%, #6f9af7 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #f0f9ff 0%,#cbebff 47%,#6f9af7 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #f0f9ff 0%,#cbebff 47%,#6f9af7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#6f9af7',GradientType=0 ); /* IE6-9 */
+background-repeat: no-repeat;
+height: 100vh;
 }
 
 a {
   color: #00B7FF;
 }
+
