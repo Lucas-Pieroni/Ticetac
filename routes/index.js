@@ -9,11 +9,13 @@ const UserModel = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-  res.render('index', { title: 'Express' });
+  res.redirect("/login");
 });
 
 router.get('/journey', function(req, res, next) {
+  if (!req.session.journeys){
+    res.redirect("/login")
+  }
   res.render('journey');
 });
 
@@ -33,6 +35,11 @@ router.post('/sign-in', async function(req, res, next){
     res.redirect("/login")
     return
   }
+  // Si ils correspondent, on crée la session et on renvoie vers Journey
+  req.session.name = findLogs.name
+  req.session.firstName = findLogs.firstName
+  req.session.email = findLogs.email
+  req.session.journeys = findLogs.populate('userJourneys')
   res.redirect('/journey')
 })
 
@@ -47,7 +54,7 @@ router.post("/sign-up", async function(req, res, next){
     res.redirect('/login')
     return
   }
-  // Si l'email n'existe pas, on stocke les informations dans la base de données
+  // Si l'email n'existe pas, on stocke les informations dans la base de données et on crée la session
   var newUser = new UserModel({
     name : req.body.newName,
     firstName : req.body.newFirstName,
@@ -56,6 +63,10 @@ router.post("/sign-up", async function(req, res, next){
     journeys : []
   })
   var userSaved = await newUser.save()
+  req.session.name = findLogs.name
+  req.session.firstName = findLogs.firstName
+  req.session.email = findLogs.email
+  req.session.journeys = findLogs.populate('userJourneys')
   res.redirect("/journey")
 })
 
