@@ -28,14 +28,17 @@
                         </thead>
 
                         <tbody>
+                            <% let total = 0
+                             for (let i = 0; i< tickets.length; i ++){  
+                                 total += tickets[i].price %>
                             <tr>
-                                <td>1</td>
-                                <td>Paris / Lille</td>
-                                <td>02/08/2019</td>
-                                <td>15:00 pm</td>
-                                <td>93€</td>
+                                <td><%= i +1 %></td>
+                                <td><%= tickets[i].departure %> / <%= tickets[i].arrival %> </td>
+                                <td><%= tickets[i].date.getMonth() %>/<%= tickets[i].date.getDay() %> </td>
+                                <td><%= tickets[i].departureTime %></td>
+                                <td><%= tickets[i].price %>€</td>
                             </tr>
-    
+                            <% } %>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -43,7 +46,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>350€</td>
+                                <td><%= total %>€</td>
                             </tr>
                         </tfoot>
                         </table>

@@ -73,6 +73,9 @@ router.post("/sign-up", async function(req, res, next){
 })
 
 router.post('/journey-results', async function(req, res, next){
+  if (!req.session.journeys){
+    res.redirect("/login")
+  }
   var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
   console.log(req.body.tripstart);
   var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
@@ -134,13 +137,23 @@ router.get('/result', function(req, res, next) {
 });
 
 router.get('/mytrip', function(req, res, next) {
+  if (!req.session.journeys){
+    res.redirect("/login")
+  }
 
   res.render('mytrip');
 });
 
 router.get('/mytickets', async function(req, res, next) {
+  if (!req.session.journeys){
+    res.redirect("/login")
+  }
   var ticketChoisi = await JourneyModel.findById(req.query.id)
   req.session.tickets.push(ticketChoisi)
+  for (let i = 0; i < req.session.tickets.length; i++){
+    req.session.tickets[i].date = JSON.stringify(req.session.tickets[i].date)
+    req.session.tickets[i].date = new Date(req.session.tickets[i].date)
+  }
   res.render('mytickets', {tickets : req.session.tickets});
 });
 
