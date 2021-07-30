@@ -149,11 +149,11 @@ router.get('/mytickets', async function(req, res, next) {
     res.redirect("/login")
   }
   var ticketChoisi = await JourneyModel.findById(req.query.id)
+  console.log("ticket choisi;", ticketChoisi)
   req.session.tickets.push(ticketChoisi)
-  for (let i = 0; i < req.session.tickets.length; i++){
-    req.session.tickets[i].date = JSON.stringify(req.session.tickets[i].date)
-    req.session.tickets[i].date = new Date(req.session.tickets[i].date)
-  }
+  console.log("test tableau ticket", req.session.tickets)
+  req.session.tickets[req.session.tickets.length-1].date = JSON.stringify(req.session.tickets[req.session.tickets.length-1].date)
+  console.log(req.session.tickets)
   res.render('mytickets', {tickets : req.session.tickets});
 });
 
