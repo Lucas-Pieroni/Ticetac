@@ -30,13 +30,13 @@
                             <% let total = 0
                              for (let i = 0; i< tickets.length; i ++){  
                                  total += tickets[i].price
-                                 var newDateMonth = new Date(tickets[i].date).getMonth()
-                                 var newDateDay = new Date(tickets[i].date).getDay()
+                                 var newDateMonth = new Date(tickets[i].date).getMonth() 
+                                 var newDateDay = new Date(tickets[i].date).getDate()
                                  %>
                             <tr>
                                 <td id ="gras"><%= i +1 %></td>
                                 <td><%= tickets[i].departure %> / <%= tickets[i].arrival %> </td>
-                                <td><%= newDateDay %>/<%= newDateMonth %> </td>
+                                <td><%= newDateDay %>/<%= newDateMonth + 1 %> </td>
                                 <td><%= tickets[i].departureTime %></td>
                                 <td><%= tickets[i].price %>€</td>
                             </tr>
@@ -81,11 +81,11 @@
                             <% 
                              for (let i = 0; i< tickets.length; i ++){  
                                  var newDateMonth = new Date(tickets[i].date).getMonth()
-                                 var newDateDay = new Date(tickets[i].date).getDay()
+                                 var newDateDay = new Date(tickets[i].date).getDate()
                                  %>
                             <tr>
                                 <td><%= tickets[i].departure %> / <%= tickets[i].arrival %> </td>
-                                <td><%= newDateDay %>/<%= newDateMonth %> </td>
+                                <td><%= newDateDay %>/<%= newDateMonth +1  %> </td>
                                 <td><%= tickets[i].departureTime %></td>
                             </tr>
                             <% } %>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="/mytrip?id=<%= id %>&confirm=true" type="button" class="btn btn-primary">Confirm</a>
-                                <button type="button" class="btn btn-danger">Go Home</button>
+                                <a href ="/journey" type="button" class="btn btn-danger">Go Home</button>
                             </div>
                             </div>
                         </div>

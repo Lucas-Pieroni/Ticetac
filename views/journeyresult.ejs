@@ -14,7 +14,7 @@
         <%} 
             else { %>
             <div class="col-12 col-sm-12 text-center mt-3">
-            <h4 id="whitebold">Tickets available on <%= journeyList[0].date.getMonth() %> / <%= journeyList[0].date.getDay() %> :</h4>
+            <h4 id="whitebold">Tickets available on <%= journeyList[0].date.getMonth() + 1 %> / <%= journeyList[0].date.getDate() %> :</h4>
             </div>
             
             <% for(let i=0; i<journeyList.length; i++){ 

@@ -77,7 +77,7 @@ router.post('/journey-results', async function(req, res, next){
     res.redirect("/login")
   }
   var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
-  var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
+  var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate});
   res.render('journeyresult', {journeyList: journeyList, id : req.session._id});
 });
 

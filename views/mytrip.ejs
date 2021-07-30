@@ -28,11 +28,11 @@
             <tbody>
                 <% for (let i = 0; i < userJourneys.length; i ++){
                     var newDateMonth = new Date(userJourneys[i].date).getMonth()
-                    var newDateDay = new Date(userJourneys[i].date).getDay() 
+                    var newDateDay = new Date(userJourneys[i].date).getDate() 
                     var newYear = new Date(userJourneys[i].date).getFullYear()
                     %>
                     <tr>
-                        <td><%= newDateDay%>/<%= newDateMonth %>/<%= newYear %> </td>
+                        <td><%= newDateDay%>/<%= newDateMonth + 1 %>/<%= newYear %> </td>
                         <td> <%= userJourneys[i].departure %> / <%= userJourneys[i].arrival %> </td>
                         <td><%= userJourneys[i].departureTime %></td>
                         <td><%= userJourneys[i].price %>€</td>
