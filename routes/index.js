@@ -16,20 +16,19 @@ router.get('/journey', function(req, res, next) {
   if (!req.session.journeys){
     res.redirect("/login")
   }
-  res.render('journey');
+  res.render('journey', { id : req.session._id});
 });
 
 
 router.get('/login', async function(req, res, next) {
   var allUsers = await UserModel.find()
-  res.render('login', { allUsers : allUsers });
+  res.render('login', { allUsers : allUsers, id : req.session._id });
 });
 
 router.post('/sign-in', async function(req, res, next){
   var erreur = ""
   // On vérifie si le mot de passe et le mail correspondent à une entrée dans la base de données
   var findLogs = await UserModel.findOne({email : req.body.email, password : req.body.password})
-  console.log(findLogs)
   if(!findLogs){
     erreur = "Mot de passe ou email invalide"
     res.redirect("/login")
@@ -49,10 +48,8 @@ router.post("/sign-up", async function(req, res, next){
   // On vérifie si l'email est déjà stocké dans la base de données
   var userExists = await UserModel.findOne({email : req.body.newEmail})
   var erreur = ""
-  console.log(userExists)
   if (userExists){
     erreur = "Cet email est déjà utilisé"
-    console.log(erreur)
     res.redirect('/login')
     return
   }
@@ -65,12 +62,13 @@ router.post("/sign-up", async function(req, res, next){
     journeys : []
   })
   var userSaved = await newUser.save()
+  var populate = await UserModel.findById(userSaved._id).populate('userJourneys')
   req.session.name = userSaved.name
   req.session.firstName = userSaved.firstName
   req.session.email = userSaved.email
   req.session._id = userSaved._id
   req.session.tickets = []
-  req.session.journeys = userSaved.populate('userJourneys')
+  req.session.journeys = populate
   res.redirect("/journey")
 })
 
@@ -79,9 +77,8 @@ router.post('/journey-results', async function(req, res, next){
     res.redirect("/login")
   }
   var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
-  console.log(req.body.tripstart);
   var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
-  res.render('journeyresult', {journeyList: journeyList});
+  res.render('journeyresult', {journeyList: journeyList, id : req.session._id});
 });
 
 
@@ -112,7 +109,7 @@ router.get('/save', async function(req, res, next) {
     }
 
   }
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Express', id : req.session._id });
 });
 
 
@@ -135,15 +132,24 @@ router.get('/result', function(req, res, next) {
   }
 
 
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Express', id : req.session._id });
 });
 
-router.get('/mytrip', function(req, res, next) {
+router.get('/mytrip', async function(req, res, next) {
   if (!req.session.journeys){
     res.redirect("/login")
   }
-
-  res.render('mytrip');
+  if (req.query.confirm){
+  var user = await UserModel.findById(req.query.id)
+  var userJourneys = user.userJourneys
+  for (let i = 0; i < req.session.tickets.length; i ++){
+    userJourneys.push(req.session.tickets[i]._id)
+  }
+  await UserModel.updateOne({_id : req.query.id}, {userJourneys : userJourneys})
+  }
+  var userPopulate = await UserModel.findById(req.query.id).populate('userJourneys')
+  req.session.journeys = userPopulate
+  res.render('mytrip', {userJourneys : req.session.journeys.userJourneys, id : req.session._id});
 });
 
 router.get('/mytickets', async function(req, res, next) {
@@ -151,11 +157,8 @@ router.get('/mytickets', async function(req, res, next) {
     res.redirect("/login")
   }
   var ticketChoisi = await JourneyModel.findById(req.query.id)
-  console.log("ticket choisi;", ticketChoisi)
   req.session.tickets.push(ticketChoisi)
-  console.log("test tableau ticket", req.session.tickets)
   req.session.tickets[req.session.tickets.length-1].date = JSON.stringify(req.session.tickets[req.session.tickets.length-1].date)
-  console.log(req.session.tickets)
   res.render('mytickets', {tickets : req.session.tickets, id : req.session._id});
 });
 
