@@ -39,6 +39,7 @@ router.post('/sign-in', async function(req, res, next){
   req.session.name = findLogs.name
   req.session.firstName = findLogs.firstName
   req.session.email = findLogs.email
+  req.session._id = findLogs._id
   req.session.tickets = []
   req.session.journeys = findLogs.populate('userJourneys')
   res.redirect('/journey')
@@ -64,11 +65,12 @@ router.post("/sign-up", async function(req, res, next){
     journeys : []
   })
   var userSaved = await newUser.save()
-  req.session.name = findLogs.name
-  req.session.firstName = findLogs.firstName
-  req.session.email = findLogs.email
+  req.session.name = userSaved.name
+  req.session.firstName = userSaved.firstName
+  req.session.email = userSaved.email
+  req.session._id = userSaved._id
   req.session.tickets = []
-  req.session.journeys = findLogs.populate('userJourneys')
+  req.session.journeys = userSaved.populate('userJourneys')
   res.redirect("/journey")
 })
 
@@ -149,12 +151,12 @@ router.get('/mytickets', async function(req, res, next) {
     res.redirect("/login")
   }
   var ticketChoisi = await JourneyModel.findById(req.query.id)
+  console.log("ticket choisi;", ticketChoisi)
   req.session.tickets.push(ticketChoisi)
-  for (let i = 0; i < req.session.tickets.length; i++){
-    req.session.tickets[i].date = JSON.stringify(req.session.tickets[i].date)
-    req.session.tickets[i].date = new Date(req.session.tickets[i].date)
-  }
-  res.render('mytickets', {tickets : req.session.tickets});
+  console.log("test tableau ticket", req.session.tickets)
+  req.session.tickets[req.session.tickets.length-1].date = JSON.stringify(req.session.tickets[req.session.tickets.length-1].date)
+  console.log(req.session.tickets)
+  res.render('mytickets', {tickets : req.session.tickets, id : req.session._id});
 });
 
 module.exports = router;

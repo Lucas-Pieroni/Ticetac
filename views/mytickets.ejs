@@ -29,11 +29,14 @@
                         <tbody>
                             <% let total = 0
                              for (let i = 0; i< tickets.length; i ++){  
-                                 total += tickets[i].price %>
+                                 total += tickets[i].price
+                                 var newDateMonth = new Date(tickets[i].date).getMonth()
+                                 var newDateDay = new Date(tickets[i].date).getDay()
+                                 %>
                             <tr>
                                 <td id ="gras"><%= i +1 %></td>
                                 <td><%= tickets[i].departure %> / <%= tickets[i].arrival %> </td>
-                                <td><%= tickets[i].date.getMonth() %>/<%= tickets[i].date.getDay() %> </td>
+                                <td><%= newDateDay %>/<%= newDateMonth %> </td>
                                 <td><%= tickets[i].departureTime %></td>
                                 <td><%= tickets[i].price %>€</td>
                             </tr>
@@ -51,7 +54,7 @@
                         </table>
                     </div>
                     </div>
-                    <a class="btn btn-danger" type="button" id="button-addon2">Confirm</a>
+                    <a href="/mytrip?id=<%= id %>" class="btn btn-danger" type="button" id="button-addon2">Confirm</a>
              </div>
 
 
