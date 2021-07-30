@@ -39,6 +39,7 @@ router.post('/sign-in', async function(req, res, next){
   req.session.name = findLogs.name
   req.session.firstName = findLogs.firstName
   req.session.email = findLogs.email
+  req.session.tickets = []
   req.session.journeys = findLogs.populate('userJourneys')
   res.redirect('/journey')
 })
@@ -66,6 +67,7 @@ router.post("/sign-up", async function(req, res, next){
   req.session.name = findLogs.name
   req.session.firstName = findLogs.firstName
   req.session.email = findLogs.email
+  req.session.tickets = []
   req.session.journeys = findLogs.populate('userJourneys')
   res.redirect("/journey")
 })
@@ -136,9 +138,10 @@ router.get('/mytrip', function(req, res, next) {
   res.render('mytrip');
 });
 
-router.get('/mytickets', function(req, res, next) {
-
-  res.render('mytickets');
+router.get('/mytickets', async function(req, res, next) {
+  var ticketChoisi = await JourneyModel.findById(req.query.id)
+  req.session.tickets.push(ticketChoisi)
+  res.render('mytickets', {tickets : req.session.tickets});
 });
 
 module.exports = router;
