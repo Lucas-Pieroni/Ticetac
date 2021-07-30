@@ -120,4 +120,14 @@ router.get('/result', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/mytrip', function(req, res, next) {
+
+  res.render('mytrip');
+});
+
+router.get('/mytickets', function(req, res, next) {
+
+  res.render('mytickets');
+});
+
 module.exports = router;

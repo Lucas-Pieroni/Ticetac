@@ -4,30 +4,29 @@
     <div id ="verticalcontainer" class= "container">
         <% if(journeyList.length === 0){%>
         <div class = "justify-content-center">
-            <div class ="col-12 col-sm-12 text-center">
+            <div class ="col-12 col-sm-12 text-center mt-5">
                 <div>
-                
-                    <p>Oops ! No trains available ...</p>
-               
+                    <h4 id="whitebold">Oops ! No trains available ...</h4>
                     <a href="/journey"><button type="submit" class="btn btn-danger">Home</button></a>
                 </div>
             </div> 
 
         <%} 
             else { %>
-            
-            <p>Tickets available on <%= journeyList[0].date.getMonth() %> / <%= journeyList[0].date.getDay() %> :</p>
+            <div class="col-12 col-sm-12 text-center mt-3">
+            <h4 id="whitebold">Tickets available on <%= journeyList[0].date.getMonth() %> / <%= journeyList[0].date.getDay() %> :</h4>
+            </div>
             
             <% for(let i=0; i<journeyList.length; i++){ 
                 const trainOn = journeyList[i]
                 %>
             <div class= "col12 col-sm-12 text center"> 
                     <ul class="list-group">
-                        <li class=" list-group-item d-flex justify-content-between align-items-center">
-                            <a><%= trainOn.departure %> / <%= trainOn.arrival %></a>
+                        <li class=" list-group-item d-flex justify-content-between align-items-center mb-4">
+                            <a id="gras"><%= trainOn.departure.toUpperCase() %> / <%= trainOn.arrival.toUpperCase() %></a>
                             <a>Train departure at : <%= trainOn.departureTime %></a>
-                            <a><%= trainOn.price %> €</a>
-                            <a href=""><button type="submit" class="btn btn-danger">Go</button></a>
+                            <a id="gras"><%= trainOn.price %> €</a>
+                            <a href=""><button type="submit" class="btn btn-danger">OK</button></a>
                         </li> 
                     </ul>
             </div> 

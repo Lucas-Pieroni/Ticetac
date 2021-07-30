@@ -27,3 +27,16 @@ a {
   justify-content: center;
 
 }
+
+#concolor {
+  color: crimson;
+}
+
+#gras {
+  font-weight: bold;
+}
+
+#whitebold {
+  font-weight: bold;
+  color:lightgrey;
+}
