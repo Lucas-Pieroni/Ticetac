@@ -21,3 +21,22 @@ a {
   color: #00B7FF;
 }
 
+#verticalcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+#concolor {
+  color: crimson;
+}
+
+#gras {
+  font-weight: bold;
+}
+
+#whitebold {
+  font-weight: bold;
+  color:lightgrey;
+}

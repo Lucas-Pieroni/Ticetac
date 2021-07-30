@@ -1,50 +1,41 @@
 <%- include('header');%>
 
-<div class = "container">
-    <div class ="justify-content-center row">
-        <div class="col-12 col-sm-6">
+<body>
+    <div id ="verticalcontainer" class= "container">
+        <% if(journeyList.length === 0){%>
+        <div class = "justify-content-center">
+            <div class ="col-12 col-sm-12 text-center mt-5">
+                <div>
+                    <h4 id="whitebold">Oops ! No trains available ...</h4>
+                    <a href="/journey"><button type="submit" class="btn btn-danger">Home</button></a>
+                </div>
+            </div> 
 
-            <div class="formArea">
-                <h4 class="titleForm">Oops ! No trains available</h4>
+        <%} 
+            else { %>
+            <div class="col-12 col-sm-12 text-center mt-3">
+            <h4 id="whitebold">Tickets available on <%= journeyList[0].date.getMonth() %> / <%= journeyList[0].date.getDay() %> :</h4>
             </div>
-
-            <div class="input-group-append">
-                <button class="btn btn-danger" type="submit" id="button-addon2">Home</button>
-            </div>
+            
+            <% for(let i=0; i<journeyList.length; i++){ 
+                const trainOn = journeyList[i]
+                %>
+            <div class= "col12 col-sm-12 text center"> 
+                    <ul class="list-group">
+                        <li class=" list-group-item d-flex justify-content-between align-items-center mb-4">
+                            <a id="gras"><%= trainOn.departure.toUpperCase() %> / <%= trainOn.arrival.toUpperCase() %></a>
+                            <a>Train departure at : <%= trainOn.departureTime %></a>
+                            <a id="gras"><%= trainOn.price %> €</a>
+                            <a href=""><button type="submit" class="btn btn-danger">OK</button></a>
+                        </li> 
+                    </ul>
+            </div> 
+            <%}%> 
         </div>
+        <%}%>
     </div>
 
 
-<div class="col-12 col-sm-6">
-<ul class="list-group">         
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <img >
-          <span class="badge badge-warning badge-pill"></span>
-          <span class="badge badge-secondary badge-pill"></span>
-          <button class="btn btn-danger" type="submit" id="button-addon2">OK</button>
-        </div>
-      </li>
-  </ul>
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    <%- include('scripts');%>
-
+<%- include('scripts');%>
 </body>
 </html>

@@ -59,6 +59,12 @@ router.post("/sign-up", async function(req, res, next){
   res.redirect("/journey")
 })
 
+router.post('/journey-results', async function(req, res, next){
+  var dateUpdate = new Date(req.body.tripstart + "T00:00:00.000Z")
+  console.log(req.body.tripstart);
+  var journeyList = await JourneyModel.find({departure : req.body.newdeparture, arrival : req.body.newarrival, date : dateUpdate})
+  res.render('journeyresult', {journeyList: journeyList});
+});
 
 
 // Remplissage de la base de donnée, une fois suffit
@@ -114,8 +120,14 @@ router.get('/result', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/journey-result', function(req, res, next){
-  res.render('journeyresult');
+router.get('/mytrip', function(req, res, next) {
+
+  res.render('mytrip');
+});
+
+router.get('/mytickets', function(req, res, next) {
+
+  res.render('mytickets');
 });
 
 module.exports = router;
