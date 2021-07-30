@@ -65,12 +65,13 @@ router.post("/sign-up", async function(req, res, next){
     journeys : []
   })
   var userSaved = await newUser.save()
+  var populate = await UserModel.findById(userSaved._id).populate('userJourneys')
   req.session.name = userSaved.name
   req.session.firstName = userSaved.firstName
   req.session.email = userSaved.email
   req.session._id = userSaved._id
   req.session.tickets = []
-  req.session.journeys = userSaved.populate('userJourneys')
+  req.session.journeys = populate
   res.redirect("/journey")
 })
 
@@ -138,12 +139,21 @@ router.get('/result', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/mytrip', function(req, res, next) {
+router.get('/mytrip', async function(req, res, next) {
   if (!req.session.journeys){
     res.redirect("/login")
   }
-
-  res.render('mytrip');
+  var user = await UserModel.findById(req.query.id)
+  console.log("user : " , user)
+  var userJourneys = user.userJourneys
+  for (let i = 0; i < req.session.tickets.length; i ++){
+    userJourneys.push(req.session.tickets[i]._id)
+  }
+  await UserModel.updateOne({_id : req.query.id}, {userJourneys : userJourneys})
+  var userPopulate = await UserModel.findById(req.query.id).populate('userJourneys')
+  req.session.journeys = userPopulate
+  console.log(" userPopulate : " , userPopulate)
+  res.render('mytrip', {userJourneys : req.session.journeys});
 });
 
 router.get('/mytickets', async function(req, res, next) {
